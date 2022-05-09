@@ -1,0 +1,8 @@
+.online {
+  background-color: #4caf50;
+  color: white;
+}
+.offline {
+  background-color: #f44336;
+  color: white;
+}

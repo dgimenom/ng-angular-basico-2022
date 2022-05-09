@@ -1,4 +1,17 @@
-<p>Server with ID {{ serverId }} is {{ getServerStatus() }}</p>
+<!-- ngStyle ejemplo -->
+<p>
+  Server with ID {{ serverId }} is
+  <strong [ngStyle]="{ color: getColor() }">{{ getServerStatus() }}</strong>
+</p>
+
+<!-- ngClass ejemplo -->
+<p>
+  Server with ID {{ serverId }} is
+  <strong
+    [ngClass]="{ online: isServerOnline(), offline: !isServerOnline() }"
+    >{{ getServerStatus() }}</strong
+  >
+</p>
 
 <h3>Servers</h3>
 <!-- Opcion property binding -->
@@ -20,3 +33,12 @@
 </button>
 
 <p>{{ serverCreationStatus }}</p>
+
+<p *ngIf="serverCreated">
+  Se ha creado un servidor con el nombre de {{ serverName }}
+</p>
+
+<h3>Server list</h3>
+<li *ngFor="let server of servers; let i = index">
+  {{ i + 1 }} - {{ server.name }} - {{ server.status }}
+</li>
