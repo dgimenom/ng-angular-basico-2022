@@ -1,66 +1,31 @@
-<!-- ngStyle ejemplo -->
-<p>
-  Server with ID {{ serverId }} is
-  <strong [ngStyle]="{ color: getColor() }">{{ getServerStatus() }}</strong>
-</p>
-
-<!-- ngClass ejemplo -->
-<p>
-  Server with ID {{ serverId }} is
-  <strong
-    [ngClass]="{ online: isServerOnline(), offline: !isServerOnline() }"
-    >{{ getServerStatus() }}</strong
-  >
-</p>
-
-<h3>Servers</h3>
-<!-- Opcion property binding -->
-<!-- <input type="text" class="form-control" (input)="onUpdateServerName($event)" /> -->
-
-<!-- Opcion two-way-binding -->
-<input type="text" class="form-control" [(ngModel)]="serverName" />
-
-<p>{{ serverName }}</p>
-
-<button class="btn btn-primary me-2" (click)="onApply()">Apply myname</button>
-
-<button
-  class="btn btn-primary"
-  [disabled]="!allowNewServer"
-  (click)="onCreateServer()"
->
-  Add new server
-</button>
-
-<p>{{ serverCreationStatus }}</p>
-
-<p *ngIf="serverCreated; else serverNoCreated">
-  Se ha creado un servidor con el nombre de {{ serverName }}
-</p>
-
-<ng-template #serverNoCreated>
-  <p>Todavía no se ha creado ningún servidor.</p>
-</ng-template>
-
-<h3>Server names</h3>
-<li *ngFor="let server of serverNames; let i = index">
-  <strong
-    [ngStyle]="{
-      backgroundColor: i % 2 ? 'yellow' : 'green',
-      color: 'light-gray'
-    }"
-    >{{ server }}</strong
-  >
-</li>
-
 <div class="container">
-  <h3>Server list</h3>
+  <div class="form-group">
+    <label for="name">Server name</label>
+    <input
+      type="text"
+      id="name"
+      class="form-control"
+      [(ngModel)]="serverName"
+    />
+  </div>
+  <button class="btn btn-primary" (click)="onCreateServer()">Add Server</button>
+
+  <h2 class="mt-4">Server List</h2>
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let server of servers">
-      <span [ngClass]="getStatusClass(server.status)" class="badge">
-        {{ server.status }}</span
+      <span
+        class="badge"
+        [ngStyle]="{ color: 'green' }"
+        [ngClass]="getStatusClass()"
+        >{{ server.status }}</span
       >
-      <span class="ml-2">{{ server.name }} | {{ server.instanceType }}</span>
+      <span class="ml-2"
+        ><strong>{{ server.name | uppercase | shorten: 6 }}</strong>
+        <strong>{{ server.name | uppercase | shorten }}</strong>
+      </span>
     </li>
   </ul>
 </div>
+
+<p>{{ todayDate | date: "fullDate" | uppercase }}</p>
+<p>{{ todayDate | date: "yyyy-MM-dd" }}</p>

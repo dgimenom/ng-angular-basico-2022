@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Server } from './server.model';
 
 export interface User {
   name: string;
@@ -12,93 +13,45 @@ export interface User {
   templateUrl: './server.component.html',
   styleUrls: ['./server.component.css'],
 })
-export class ServerComponent implements OnInit {
-  serverId: number = 10;
-  serverStatus: string = 'offline';
-  allowNewServer: boolean = false;
+export class ServerComponent {
+  serverName = '';
+  servers: Server[] = [
+    new Server('Production', 1, 'stable'),
+    new Server('User database', 2, 'stable'),
+    new Server('Stage', 3, 'failed'),
+    new Server('Development', 4, 'initializing'),
+  ];
 
-  serverCreationStatus: string = 'No server was created!';
-  serverName: string = '';
-  serverCreated = false;
-
-  serverNames: string[] = ['Server 1', 'Server 2', 'Server 3', 'Server 4'];
-
-  servers: any[] = [
+  users: User[] = [
     {
-      instanceType: 'medium',
-      name: 'Production',
-      status: 'stable',
-      started: new Date(15, 1, 2017),
-      maintenanceCost: 49.9,
-    },
-    {
-      instanceType: 'large',
-      name: 'User database',
-      status: 'stable',
-      started: new Date(15, 1, 2017),
-      maintenanceCost: 25.85,
-    },
-    {
-      instanceType: 'small',
-      name: 'Stage',
-      status: 'failed',
-      started: new Date(15, 1, 2017),
-      maintenanceCost: 10.0,
-    },
-    {
-      instanceType: 'small',
-      name: 'Development',
-      status: 'initializing',
-      started: new Date(15, 1, 2017),
-      maintenanceCost: 10.0,
+      name: 'Max',
+      id: '1',
+      email: 'test@test.com',
+      sayHello() {
+        console.log('Hello!');
+      },
     },
   ];
 
-  constructor() {
-    setTimeout(() => {
-      this.allowNewServer = true;
-      this.serverStatus = 'online';
-    }, 3000);
+  todayDate = new Date();
+
+  constructor() {}
+
+  onCreateServer() {
+    const server = {
+      id: this.servers.length,
+      name: this.serverName,
+      status: 'stable',
+    };
+    this.servers.push(server);
   }
 
-  ngOnInit(): void {}
-
-  getServerStatus(): string {
-    return this.serverStatus;
-  }
-
-  onCreateServer(): void {
-    this.serverCreationStatus = 'Server was created!';
-    this.serverCreated = true;
-  }
-
-  onApply() {
-    this.serverName = 'myname';
-  }
-
-  onUpdateServerName(event: Event) {
-    const name = (event.target as HTMLInputElement).value;
-    this.serverName = name;
-  }
-
-  getColor(): string {
-    return this.serverStatus === 'online' ? 'green' : 'red';
-  }
-
-  isServerOnline(): boolean {
-    return this.serverStatus === 'online';
-  }
-
-  getStatusClass(serverStatus: any): string {
-    switch (serverStatus) {
-      case 'stable':
-        return 'server-stable';
-      case 'failed':
-        return 'server-failed';
-      case 'initializing':
-        return 'server-initializing';
-      default:
-        return 'server-unknown';
-    }
+  getStatusClass() {
+    const classes = {
+      stable: 'badge-success',
+      failed: 'badge-danger',
+      initializing: 'badge-warning',
+    };
+    return 'badge-success';
   }
 }
