@@ -6,3 +6,16 @@
   background-color: #f44336;
   color: white;
 }
+
+.server-stable {
+  color: green;
+}
+.server-failed {
+  color: red;
+}
+.server-initializing {
+  color: brown;
+}
+.server-unknown {
+  color: blue;
+}

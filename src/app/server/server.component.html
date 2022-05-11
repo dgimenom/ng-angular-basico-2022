@@ -34,11 +34,33 @@
 
 <p>{{ serverCreationStatus }}</p>
 
-<p *ngIf="serverCreated">
+<p *ngIf="serverCreated; else serverNoCreated">
   Se ha creado un servidor con el nombre de {{ serverName }}
 </p>
 
-<h3>Server list</h3>
-<li *ngFor="let server of servers; let i = index">
-  {{ i + 1 }} - {{ server.name }} - {{ server.status }}
+<ng-template #serverNoCreated>
+  <p>Todavía no se ha creado ningún servidor.</p>
+</ng-template>
+
+<h3>Server names</h3>
+<li *ngFor="let server of serverNames; let i = index">
+  <strong
+    [ngStyle]="{
+      backgroundColor: i % 2 ? 'yellow' : 'green',
+      color: 'light-gray'
+    }"
+    >{{ server }}</strong
+  >
 </li>
+
+<div class="container">
+  <h3>Server list</h3>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let server of servers">
+      <span [ngClass]="getStatusClass(server.status)" class="badge">
+        {{ server.status }}</span
+      >
+      <span class="ml-2">{{ server.name }} | {{ server.instanceType }}</span>
+    </li>
+  </ul>
+</div>
