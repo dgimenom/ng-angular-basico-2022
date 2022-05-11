@@ -1,0 +1,11 @@
+<li class="list-group-item d-flex justify-content-between">
+  <div>
+    <span class="badge" [ngClass]="getStatusClass()">{{ server?.status }}</span>
+    <span class="ml-2"
+      ><strong>{{ server?.name }}</strong> | {{ server?.instanceType }}</span
+    >
+  </div>
+  <button class="btn btn-sm btn-primary" (click)="onChangeStatus()">
+    Change status
+  </button>
+</li>

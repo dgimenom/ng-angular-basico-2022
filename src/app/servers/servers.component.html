@@ -1,0 +1,31 @@
+<ng-content select=".top-content"></ng-content>
+
+<div class="container">
+  <div class="form-group">
+    <label for="name">Server name</label>
+    <input
+      type="text"
+      id="name"
+      class="form-control"
+      [(ngModel)]="serverName"
+      #serverNameInput
+    />
+  </div>
+  <button class="btn btn-primary" (click)="onCreateServer(serverNameInput)">
+    Add Server
+  </button>
+
+  <div class="row px-2 mt-4">
+    <div class="col-12">
+      <app-server
+        *ngFor="let server of servers"
+        [server]="server"
+        (serverChanged)="changeServerStatus($event)"
+      ></app-server>
+    </div>
+  </div>
+</div>
+
+<ng-content select=".bottom-content"></ng-content>
+
+<p #pRef>Contenido inicial del p</p>

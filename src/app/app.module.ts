@@ -5,10 +5,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ShortenPipe } from './pipes/shorten.pipe';
-import { ServerComponent } from './server/server.component';
+import { ServersComponent } from './servers/servers.component';
+import { ServerComponent } from './servers/server/server.component';
 
 @NgModule({
-  declarations: [AppComponent, ServerComponent, ShortenPipe],
+  declarations: [AppComponent, ServersComponent, ShortenPipe, ServerComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
