@@ -1,6 +1,5 @@
-<ng-content select=".top-content"></ng-content>
-
 <div class="container">
+  <ng-content></ng-content>
   <div class="form-group">
     <label for="name">Server name</label>
     <input
@@ -11,7 +10,11 @@
       #serverNameInput
     />
   </div>
-  <button class="btn btn-primary" (click)="onCreateServer(serverNameInput)">
+  <button
+    class="btn btn-primary mt-3"
+    (click)="onCreateServer(serverNameInput)"
+    [disabled]="serverName === ''"
+  >
     Add Server
   </button>
 
@@ -25,7 +28,3 @@
     </div>
   </div>
 </div>
-
-<ng-content select=".bottom-content"></ng-content>
-
-<p #pRef>Contenido inicial del p</p>

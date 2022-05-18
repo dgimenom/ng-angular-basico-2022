@@ -14,12 +14,12 @@ export class ServerComponent {
     this.serverChanged.emit(this.server);
   }
 
-  getStatusClass() {
-    const classes = {
-      stable: 'badge-success',
-      failed: 'badge-danger',
-      initializing: 'badge-warning',
+  getStatusClass(status: string = 'initializing'): string {
+    const classes: { [key: string]: string } = {
+      stable: 'bg-success',
+      failed: 'bg-danger',
+      initializing: 'bg-warning',
     };
-    return 'server-stable';
+    return classes[status];
   }
 }

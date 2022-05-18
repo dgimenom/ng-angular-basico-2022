@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Server } from './server.model';
 
 @Component({
@@ -15,28 +15,7 @@ export class ServersComponent {
     new Server('Development', 4, 'initializing', 'small'),
   ];
 
-  constructor() {
-    setTimeout(() => {
-      console.log(this.pRef);
-      this.pRef.nativeElement.innerHTML = 'Hello World';
-      this.pRef.nativeElement.setAttribute('style', 'color:red');
-    }, 3000);
-  }
-
-  @ViewChild('pRef', { static: false }) pRef: any;
-
-  onCreateServerOld() {
-    const server = {
-      id: this.servers.length + 1,
-      name: this.serverName,
-      status: 'stable',
-      instanceType: 'medium',
-    };
-    this.servers.push(server);
-  }
-
   onCreateServer(serverNameInput: HTMLInputElement) {
-    console.log(serverNameInput);
     const server = new Server(
       serverNameInput.value,
       this.servers.length,
@@ -44,6 +23,7 @@ export class ServersComponent {
       'medium'
     );
     this.servers.push(server);
+    this.serverName = '';
   }
 
   changeServerStatus(server: Server) {
