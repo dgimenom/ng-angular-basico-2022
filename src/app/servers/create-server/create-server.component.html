@@ -1,0 +1,58 @@
+<div class="container">
+  <form [formGroup]="createServerForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        class="form-control"
+        type="text"
+        formControlName="name"
+        placeholder="Please, enter a server name"
+      />
+    </div>
+    <div class="form-group">
+      <label for="id">ID</label>
+      <input
+        id="id"
+        class="form-control"
+        formControlName="id"
+        type="number"
+        placeholder="Please, enter a server ID"
+      />
+    </div>
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" class="form-control" formControlName="status">
+        <option>Online</option>
+        <option>Offline</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="instance">Instance Type</label>
+      <div *ngFor="let instance of instanceTypeOptions">
+        <input
+          [value]="instance"
+          name="instanceType"
+          type="radio"
+          formControlName="instanceType"
+        />
+        {{ instance }}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-sm btn-primary">Create Server</button>
+    <button
+      type="button"
+      (click)="onCancel()"
+      class="btn btn-sm btn-danger ms-2"
+    >
+      Cancel
+    </button>
+    <button
+      type="button"
+      (click)="onDebug()"
+      class="btn btn-sm btn-secondary ms-2"
+    >
+      Debug
+    </button>
+  </form>
+</div>
