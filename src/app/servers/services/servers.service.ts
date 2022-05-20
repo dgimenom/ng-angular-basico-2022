@@ -22,8 +22,11 @@ export class ServersService {
     this.servers.push(server);
   }
 
-  changeServerStatus(server: Server) {
-    this.servers[server.id - 1].status =
-      server.status === 'stable' ? 'failed' : 'stable';
+  changeServerStatus(newServer: Server) {
+    const index = this.servers.findIndex(
+      (server) => server.id === newServer.id
+    );
+    this.servers[index].status =
+      newServer.status === 'stable' ? 'failed' : 'stable';
   }
 }

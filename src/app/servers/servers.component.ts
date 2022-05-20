@@ -18,9 +18,11 @@ export class ServersComponent {
     this.servers = this.service.servers;
   }
 
-  onCreateServer() {}
+  onCreateServer(newServer: Server) {
+    this.service.addServer(newServer);
+  }
 
   changeServerStatus(server: Server) {
-    //this.service.changeServerStatus(server);
+    this.service.changeServerStatus(server);
   }
 }

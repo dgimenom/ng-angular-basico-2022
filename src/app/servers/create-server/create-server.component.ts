@@ -1,5 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { Server } from '../server.model';
 
 @Component({
   selector: 'app-create-server',
@@ -8,8 +14,14 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class CreateServerComponent implements OnInit {
   @Output() cancel = new EventEmitter<boolean>();
+  @Output() submit = new EventEmitter<Server>();
 
   instanceTypeOptions = ['large', 'medium', 'small'];
+  statusServerOptions = ['stable', 'initializing', 'failed'];
+  positiveNumberPattern = /^\d*[1-9]\d*$/;
+  maxLengthAllowed = 50;
+
+  forbiddenServerNames = ['Test', 'Server'];
 
   createServerForm: FormGroup;
 
@@ -21,11 +33,42 @@ export class CreateServerComponent implements OnInit {
 
   buildForm() {
     this.createServerForm = new FormGroup({
-      name: new FormControl(null),
-      id: new FormControl(null),
-      status: new FormControl('Online'),
+      name: new FormControl(null, [
+        Validators.required,
+        Validators.maxLength(this.maxLengthAllowed),
+        this.forbiddenNames.bind(this),
+      ]),
+      id: new FormControl(null, [
+        Validators.required,
+        Validators.pattern(this.positiveNumberPattern),
+      ]),
+      status: new FormControl('stable', Validators.required),
       instanceType: new FormControl('small'),
     });
+
+    //Podemos actualizar el valor del formControl llamando a setValue
+    // this.name.setValue('Test Server');
+
+    //Podemos actualizar los valores de los validadores llamando a setValidators
+    // this.name.setValidators([Validators.required]);
+
+    //Podemos suscribirnos a los cambios de los valores del form
+    this.createServerForm.valueChanges.subscribe((value) => {
+      console.log('form value changed', value);
+    });
+  }
+
+  get name(): FormControl {
+    return this.createServerForm.get('name') as FormControl;
+  }
+  get id(): FormControl {
+    return this.createServerForm.controls.id as FormControl;
+  }
+  get status(): FormControl {
+    return this.createServerForm.controls['status'] as FormControl;
+  }
+  get instanceType(): FormControl {
+    return this.createServerForm.get('instanceType') as FormControl;
   }
 
   onCancel() {
@@ -33,7 +76,18 @@ export class CreateServerComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('FORM:', this.createServerForm);
+    if (this.createServerForm.valid) {
+      const newServerCreated = new Server(
+        this.name.value,
+        this.id.value,
+        this.status.value,
+        this.instanceType.value
+      );
+      this.submit.emit(newServerCreated);
+      this.onCancel();
+    } else {
+      this.createServerForm.markAllAsTouched();
+    }
   }
 
   onDebug() {
@@ -59,5 +113,12 @@ export class CreateServerComponent implements OnInit {
     console.log('.valid', this.createServerForm.controls.id.valid);
     console.log('.errors', this.createServerForm.controls.id.errors);
     console.groupEnd();
+  }
+
+  forbiddenNames(control: FormControl): ValidationErrors | null {
+    if (this.forbiddenServerNames.includes(control.value)) {
+      return { nameIsForbidden: true };
+    }
+    return null;
   }
 }
